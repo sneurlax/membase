@@ -10,5 +10,5 @@ var serviceAccount = require('serviceAccountKey.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://sample-project.firebaseio.com'
+  databaseURL: 'https://bitphilia-f8be0.firebaseio.com'
 });
