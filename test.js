@@ -8,7 +8,11 @@ var rpcClient = new bitcoinRpc.Client({
   pass: rpcAuth.rpcpassword,
   timeout: 30000
 });
-// client.getInfo().then((help) => console.log(help));
+// rpcClient.getInfo().then((help) => console.log(help));
+// rpcClient.getBalance('*', 6, function(err, balance, resHeaders) {
+//   if (err) return console.log(err);
+//   console.log('Balance:', balance);
+// });
 
 // Firebase
 /*
@@ -18,25 +22,36 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://bitphilia-f8be0.firebaseio.com'
 });
+var db = admin.database();
+var ref = db.ref('mempool');
 */
 
+var memPool = {}
+
 var monitor = function() {
-  // rpcClient.getBalance('*', 6, function(err, balance, resHeaders) {
-  //   if (err) return console.log(err);
-  //   console.log('Balance:', balance);
-  // });
-  rpcClient.getRawMemPool(function(err, memPool) {
+  rpcClient.getRawMemPool(function(err, rawMemPool) {
     if( err ) return console.log(err);
-    for( tx in memPool ) {
-      // console.log('tx '+tx+': '+memPool[tx]);
-      rpcClient.getRawTransaction(memPool[tx], function(err, rawTx) {
+    for( tx in rawMemPool ) {
+      // console.log('tx '+tx+': '+rawMemPool[tx]);
+      rpcClient.getRawTransaction(rawMemPool[tx], function(err, rawTx) {
         if( err ) return console.log(err);
+        // console.log('rawtx: '+rawTx);
         rpcClient.cmd('decoderawtransaction', rawTx, function(err, decodedTx) {
-          if( err ) return console.log(err);
-          console.log(decodedTx);
+          if( err ) return /*console.log(err)*/;
+          // console.log(decodedTx);
+          memPool[] = decodedTx;
         });
       });
     }
+    console.log(memPool);
+    /*
+    for( tx in memPool ) {
+      var memPoolRef = ref.child(tx['hash']);
+      memPoolRef.set({
+        tx
+      });
+    }
+    */
   });
 }
 
