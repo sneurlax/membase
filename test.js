@@ -11,12 +11,14 @@ var rpcClient = new bitcoinRpc.Client({
 // client.getInfo().then((help) => console.log(help));
 
 // Firebase
+/*
 var admin = require('firebase-admin');
 var serviceAccount = require('./serviceAccountKey.json');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://bitphilia-f8be0.firebaseio.com'
 });
+*/
 
 var monitor = function() {
   // rpcClient.getBalance('*', 6, function(err, balance, resHeaders) {
@@ -24,15 +26,19 @@ var monitor = function() {
   //   console.log('Balance:', balance);
   // });
   rpcClient.getRawMemPool(function(err, memPool) {
-    if(err) return console.log(err);
+    if( err ) return console.log(err);
     for( tx in memPool ) {
-      console.log('tx '+tx+': '+memPool[tx]);
-      rpcClient.getRawTransaction(memPool[tx], function(err, txInfo) {
-        if(err) return console.log(err);
-        console.log(txInfo);
+      // console.log('tx '+tx+': '+memPool[tx]);
+      rpcClient.getRawTransaction(memPool[tx], function(err, rawTx) {
+        if( err ) return console.log(err);
+        rpcClient.cmd('decoderawtransaction', rawTx, function(err, decodedTx) {
+          if( err ) return console.log(err);
+          console.log(decodedTx);
+        });
       });
     }
   });
 }
 
-setInterval(monitor, 1000);
+monitor();
+setInterval(monitor, 1000*60);
