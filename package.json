@@ -1,0 +1,24 @@
+{
+  "name": "membase",
+  "version": "0.0.1",
+  "description": "push the bitcoin mempool to Firebase",
+  "main": "monitor.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sneurlax/membase.git"
+  },
+  "keywords": [
+    "bitcoin",
+    "mempool",
+    "firebase"
+  ],
+  "author": "sneurlax",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sneurlax/membase/issues"
+  },
+  "homepage": "https://github.com/sneurlax/membase#readme"
+}
