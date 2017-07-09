@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/sneurlax/membase/issues"
   },
-  "homepage": "https://github.com/sneurlax/membase#readme"
+  "homepage": "https://github.com/sneurlax/membase#readme",
+  "dependencies": {
+    "bitcoin-core": "^1.2.0"
+  }
 }
