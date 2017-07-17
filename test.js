@@ -1,4 +1,27 @@
 // JSON-RPC
+var rpcAuth = require('./rpcAuth.js');
+var bitcoin = require( 'bitcoin-promise' ) ;
+
+var client = new bitcoin.Client({
+  host: 'localhost',
+  port: 8332,
+  user: rpcAuth.rpcuser,
+  pass: rpcAuth.rpcpassword,
+  timeout: 30000
+});
+
+// get a new address and return details about it
+client.getNewAddress()
+.then( function(addr){
+  return client.validateAddress( addr ) ;
+}) 
+.then( function(addrInfo){
+  console.log( addrInfo ) ;
+}) 
+.catch( function(err){
+  console.log( err ) ;
+}) ;
+
 
 // Firebase
 /*
