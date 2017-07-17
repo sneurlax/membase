@@ -9,10 +9,10 @@ var rpcClient = new bitcoinRpc.Client({
   timeout: 30000
 });
 // rpcClient.getInfo().then((help) => console.log(help));
-// rpcClient.getBalance('*', 6, function(err, balance, resHeaders) {
-//   if (err) return console.log(err);
-//   console.log('Balance:', balance);
-// });
+rpcClient.getBalance('*', 6, function(err, balance, resHeaders) {
+  if (err) return console.log(err);
+  console.log('Balance:', balance);
+});
 
 // Firebase
 /*
@@ -38,8 +38,8 @@ var monitor = function() {
         // console.log('rawtx: '+rawTx);
         rpcClient.cmd('decoderawtransaction', rawTx, function(err, decodedTx) {
           if( err ) return /*console.log(err)*/;
-          // console.log(decodedTx);
-          memPool[] = decodedTx;
+          console.log(decodedTx);
+          // memPool[] = decodedTx;
         });
       });
     }
@@ -56,4 +56,4 @@ var monitor = function() {
 }
 
 monitor();
-setInterval(monitor, 1000*60);
+// setInterval(monitor, 1000*60);
