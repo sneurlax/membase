@@ -1,4 +1,4 @@
-// Set these variables to your rpcuser and rpcpassword files in bitmark.conf -- See the Setup section of README.md for more information
+// Set these variables to your rpcuser and rpcpassword files in bitcoin.conf -- See the Setup section of README.md for more information
 
 module.exports = {
   rpcuser: 'Abscond',
