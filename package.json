@@ -22,7 +22,6 @@
   },
   "homepage": "https://github.com/sneurlax/membase#readme",
   "dependencies": {
-    "bitcoin": "^3.0.1",
     "firebase-admin": "^5.0.0"
   }
 }
