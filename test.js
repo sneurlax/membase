@@ -14,16 +14,14 @@ var rpcClient = new bitcoin.Client({
 //   .catch( function(err) { console.log(err); });
 
 // Firebase
-/*
 var admin = require('firebase-admin');
 var serviceAccount = require('./serviceAccountKey.json');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://bitphilia-f8be0.firebaseio.com'
+  databaseURL: 'https://bpoch-bd639.firebaseio.com'
 });
 var db = admin.database();
 var ref = db.ref('mempool');
-*/
 
 var memPool = {}
 
@@ -38,13 +36,20 @@ var monitor = function() {
         rpcClient.getRawTransaction(rawMemPool[tx])
           .then( function(rawTx) {
             // console.log('rawtx: '+rawTx);
-            memPool[rawMemPool[tx]] = {};
-            memPool[rawMemPool[tx]]['raw'] = rawTx;
+            // memPool[rawMemPool[tx]] = {};
+            // memPool[rawMemPool[tx]]['raw'] = rawTx;
 
             rpcClient.decodeRawTransaction(rawTx)
               .then( function(decodedTx) {
-                console.log('decodedTx: '+JSON.stringify(decodedTx));
-                memPool[rawMemPool[tx]]['decoded'] = decodedTx;
+                // console.log('decodedTx: '+JSON.stringify(decodedTx));
+                // memPool[rawMemPool[tx]]['decoded'] = decodedTx;
+
+                var memPoolRef = ref.child(decodedTx['txid']);
+                memPoolRef.set({
+                  size: decodedTx['size'],
+                  vin: decodedTx['vin'],
+                  vout: decodedTx['vout']
+                });
               })
               .catch( function(err) {
                 // console.log( err );
@@ -54,28 +59,6 @@ var monitor = function() {
             // console.log( err );
           });
       }
-      // for( tx in memPool ) {
-      //   if( memPool[tx] == false ) {
-      //     rpcClient.getRawTransaction(rawMemPool[tx])
-      //       .then( function(rawTx) {
-      //         // console.log('rawtx: '+rawTx);
-      //         memPool[rawMemPool[tx]] = {};
-      //         memPool[rawMemPool[tx]]['raw'] = rawTx;
-
-      //         rpcClient.decodeRawTransaction(rawMemPool[tx])
-      //           .then( function(decodedTx) {
-      //             // console.log('decodedTx: '+decodedTx);
-      //             memPool[rawMemPool[tx]]['decoded'] = decodedTx;
-      //           })
-      //           .catch( function(err) {
-      //             // console.log( err );
-      //           });
-      //       })
-      //       .catch( function(err) {
-      //         // console.log( err );
-      //       });
-      //   }
-      // }
     })
     .catch( function(err) {
       // console.log( err );
@@ -97,10 +80,6 @@ var monitor = function() {
 
     // console.log(memPool);
     // for( tx in memPool ) {
-    //   var memPoolRef = ref.child(tx['hash']);
-    //   memPoolRef.set({
-    //     tx
-    //   });
     // }
   });
   */
